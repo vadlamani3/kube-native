@@ -71,6 +71,13 @@ pipeline {
             }
         }
     }
+    stage('Deploy') {
+    steps {
+    sh 'BUILDNO=$(echo ${TAG} | sed "s/.*\\.//"); \
+        cd releases; \
+        helm install final --namespace staging demochart-0.0.${BUILDNO}.tgz'
+     }
+    }
 
     post {
         always{
